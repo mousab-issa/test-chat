@@ -61,21 +61,24 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
 
   return (
     <div
-      className={clsx("flex mb-4", isSender ? "justify-end" : "justify-start")}
+      className={clsx(
+        "flex mb-4 items-start",
+        isSender ? "justify-end" : "justify-start"
+      )}
     >
       {!isSender && (
-        <div>
+        <div className="flex flex-col items-center">
           <img
             src={getUserAvatar(message.userId)}
             className="object-cover h-8 w-8 rounded-full"
             alt=""
           />
-          <div>{message.userId}</div>
+          <div className="text-xs">{message.userId}</div>
         </div>
       )}
       <div
         className={clsx(
-          "py-1 px-4 rounded-xl max-w-[50%]",
+          "relative py-1 px-4 rounded-xl max-w-[50%] cursor-pointer",
           isSender ? "mr-2" : "ml-2",
           isSender ? "bg-green-400" : "bg-gray-400",
           "text-white",
@@ -83,6 +86,10 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         )}
         onClick={handleResend}
       >
+        {!isSender && (
+          <div className="absolute top-0 left-[-4px] w-4 h-4 bg-gray-400 rounded-tl-full rounded-br-full" />
+        )}
+
         <div>{message.text}</div>
         <div className="text-xs text-gray-200 mt-1">
           {formattedTimestamp}
@@ -92,13 +99,13 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         </div>
       </div>
       {isSender && (
-        <div>
+        <div className="flex flex-col items-center">
           <img
             src={getUserAvatar(message.userId)}
             className="object-cover h-8 w-8 rounded-full"
             alt=""
           />
-          <div>{message.userId}</div>
+          <div className="text-xs">{message.userId}</div>
         </div>
       )}
     </div>

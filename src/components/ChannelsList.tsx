@@ -19,7 +19,7 @@ export const ChannelsList: React.FC = () => {
             <div
               key={user.id}
               onClick={() => setCurrentUser(user)}
-              className={`px-4 py-2 mr-2 mb-2 rounded cursor-pointer ${
+              className={`px-4 py-2 mr-2 mb-2 rounded-xl cursor-pointer ${
                 currentUser?.id === user.id
                   ? "bg-green-100 text-green-800"
                   : "bg-gray-200 text-gray-700"

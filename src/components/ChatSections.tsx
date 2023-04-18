@@ -63,7 +63,7 @@ export const ChatSection: React.FC = () => {
 
       const newMessage = {
         ...tempMessage,
-        datetime: data.postMessage.timestamp,
+        datetime: data.postMessage.datetime, // Change this line to use 'datetime' instead of 'timestamp'
       };
 
       dispatch({
