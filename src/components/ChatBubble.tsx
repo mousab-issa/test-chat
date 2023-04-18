@@ -4,7 +4,7 @@ import MessageContext, { Message } from "../context/MessageContext";
 import UserContext from "../context/UserContext";
 import { POST_MESSAGE } from "../graphQl/queries";
 
-interface ChatBubbleProps {
+export interface ChatBubbleProps {
   message: Message;
 }
 
@@ -15,6 +15,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   const [postMessageMutation] = useMutation(POST_MESSAGE);
 
   const isSender = currentUser && currentUser.id === message.userId;
+
+  const formattedTimestamp = message.datetime
+    ? new Date(message.datetime).toLocaleString("en-US", {
+        timeZone: "UTC",
+      })
+    : "";
 
   const handleResend = async () => {
     if (message.error) {
@@ -65,8 +71,13 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         } rounded-tr-3xl rounded-${isSender ? "tr" : "tl"}-xl text-white`}
         onClick={handleResend}
       >
-        {message.text}
-        {message.error ? "Error. Click to resend." : ""}
+        <div>{message.text}</div>
+        <div className="text-xs text-gray-200 mt-1">
+          {formattedTimestamp}
+          {message.error
+            ? "Error. Click to resend."
+            : isSender && <>&nbsp;Sent</>}
+        </div>
       </div>
       {isSender && (
         <img

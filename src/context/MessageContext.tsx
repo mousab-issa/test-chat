@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from "react";
 export interface Message {
   messageId: string;
   text: string;
-  datetime: string;
+  datetime?: string;
   userId: string;
   error?: boolean;
   channelId: string;
@@ -29,7 +29,10 @@ const MessageContext = createContext<MessageContextInterface>({
   },
 });
 
-const messageReducer = (state: Message[], action: MessageAction): Message[] => {
+export const messageReducer = (
+  state: Message[],
+  action: MessageAction
+): Message[] => {
   switch (action.type) {
     case "SET_MESSAGES":
       return action.payload;

@@ -1,7 +1,8 @@
 import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { API } from "./common/constants";
 
 const httpLink = new HttpLink({
-  uri: "https://angular-test-backend-yc4c5cvnnq-an.a.run.app/graphql",
+  uri: API,
 });
 
 const client = new ApolloClient({

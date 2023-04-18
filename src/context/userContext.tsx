@@ -14,14 +14,17 @@ interface UserContextInterface {
 
 export type UserAction = { type: "SET_CURRENT_USER"; payload: User | null };
 
-const UserContext = createContext<UserContextInterface>({
+export const UserContext = createContext<UserContextInterface>({
   currentUser: null,
   dispatch: () => {
     return;
   },
 });
 
-const userReducer = (state: User | null, action: UserAction): User | null => {
+export const userReducer = (
+  state: User | null,
+  action: UserAction
+): User | null => {
   switch (action.type) {
     case "SET_CURRENT_USER":
       return action.payload;

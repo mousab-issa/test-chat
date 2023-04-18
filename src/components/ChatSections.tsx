@@ -6,7 +6,7 @@ import { FETCH_MORE_MESSAGES, POST_MESSAGE } from "../graphQl/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useMessages } from "../hooks/useMessages";
 import { useInputMessage } from "../hooks/useInputMessage";
-import { useScrollToBottom } from "../hooks/useScrolltoBottom";
+import { useScrollToBottom } from "../hooks/useScrollToBottom";
 
 export const ChatSection: React.FC = () => {
   const { messages, currentChannel, dispatch } = useMessages();
@@ -14,15 +14,13 @@ export const ChatSection: React.FC = () => {
   const { showScrollToBottom } = useScrollToBottom();
 
   const { currentUser } = useContext(UserContext);
+
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
+  const olderMessagesEndRef = React.useRef<HTMLDivElement | null>(null);
 
   const filteredMessages = messages.filter(
     (message) => message.channelId === currentChannel?.id
   );
-
-  React.useEffect(() => {
-    console.log(messages);
-  }, [messages]);
 
   React.useEffect(() => {
     scrollToBottom();
@@ -49,7 +47,7 @@ export const ChatSection: React.FC = () => {
       userId: currentUser.id,
       text: inputMessage,
       error: false,
-      datetime: Date.now().toString(),
+      datetime: new Date().toISOString(),
     };
 
     dispatch({ type: "SEND_MESSAGE", payload: tempMessage });
@@ -65,8 +63,7 @@ export const ChatSection: React.FC = () => {
 
       const newMessage = {
         ...tempMessage,
-        id: data.postMessage.id,
-        timestamp: new Date(data.postMessage.timestamp),
+        datetime: data.postMessage.timestamp,
       };
 
       dispatch({
@@ -108,6 +105,7 @@ export const ChatSection: React.FC = () => {
       });
 
       dispatch({ type: "LOAD_OLDER_MESSAGES", payload: olderMessages });
+      olderMessagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.error("Error loading older messages:", error);
     }
@@ -131,6 +129,7 @@ export const ChatSection: React.FC = () => {
         return { ...message, channelId: currentChannel.id, error: false };
       });
       dispatch({ type: "LOAD_NEWER_MESSAGES", payload: newerMessages });
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     } catch (error) {
       console.error("Error loading newer messages:", error);
     }
@@ -138,8 +137,10 @@ export const ChatSection: React.FC = () => {
   return (
     <div className="flex flex-col w-full h-screen relative">
       <div className="flex-grow overflow-y-auto">
+        <div ref={olderMessagesEndRef}></div>
+
         {filteredMessages.map((message, i) => (
-          <ChatBubble key={message.datetime + i} message={message} />
+          <ChatBubble key={message.text + i} message={message} />
         ))}
         <div ref={messagesEndRef}></div>
       </div>
