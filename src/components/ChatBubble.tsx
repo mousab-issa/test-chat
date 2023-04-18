@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import React, { useContext } from "react";
 import MessageContext, { Message } from "../context/MessageContext";
 import UserContext from "../context/UserContext";
+import { mockUsers } from "../data/mock";
 import { POST_MESSAGE } from "../graphQl/queries";
 
 export interface ChatBubbleProps {
@@ -50,7 +51,10 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   };
 
   const getUserAvatar = (userId: string): string => {
-    const user = currentUser?.id === userId ? currentUser : null;
+    const user =
+      currentUser?.id === userId
+        ? currentUser
+        : mockUsers.find((user) => user.id === userId);
     return user ? user.avatarUrl : "";
   };
 

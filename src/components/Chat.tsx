@@ -13,8 +13,7 @@ export const Chat: React.FC = () => {
       <ChannelProvider>
         <MessageProvider>
           <PageWrapper>
-            <div className="px-5 py-5 flex justify-between items-center bg-white border-b-2"></div>
-            <div className="flex flex-row justify-between bg-white">
+            <div className="flex flex-row justify-between bg-gray-100">
               <ChannelsList />
               <ChatSection />
             </div>
