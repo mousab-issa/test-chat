@@ -15,9 +15,8 @@ export const Chat: React.FC = () => {
           <PageWrapper>
             <div className="px-5 py-5 flex justify-between items-center bg-white border-b-2"></div>
             <div className="flex flex-row justify-between bg-white">
-              <ChannelsList channels={[]} />
+              <ChannelsList />
               <ChatSection />
-              <div className="w-2/5 border-l-2 px-5"></div>
             </div>
           </PageWrapper>
         </MessageProvider>

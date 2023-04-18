@@ -34,7 +34,13 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const [currentUser, dispatch] = useReducer(userReducer, null);
+  const mockCurrentUser: User = {
+    id: "1",
+    name: "John Doe",
+    avatarUrl: "https://example.com/johndoe.jpg",
+  };
+
+  const [currentUser, dispatch] = useReducer(userReducer, mockCurrentUser);
 
   return (
     <UserContext.Provider value={{ currentUser, dispatch }}>

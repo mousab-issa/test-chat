@@ -21,8 +21,15 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
     return user ? user.avatarUrl : "";
   };
 
+  const formatTimestamp = (timestamp: Date): string => {
+    return new Intl.DateTimeFormat("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(timestamp);
+  };
+
   return (
-    <div className={`flex justify-${isSender ? "end" : "start"} mb-4`}>
+    <div className={`flex ${isSender ? "justify-end" : "justify-start"} mb-4`}>
       {!isSender && (
         <img
           src={getUserAvatar(message.senderId)}
@@ -33,11 +40,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
       <div
         className={`${isSender ? "mr-2" : "ml-2"} py-3 px-4 ${
           isSender ? "bg-blue-400" : "bg-gray-400"
-        } rounded-${isSender ? "bl" : "br"}-3xl rounded-tr-3xl rounded-${
-          isSender ? "tr" : "tl"
-        }-xl text-white`}
+        } ${
+          isSender ? "rounded-bl-3xl" : "rounded-br-3xl"
+        } rounded-tr-3xl rounded-${isSender ? "tr" : "tl"}-xl text-white`}
       >
         {message.content}
+        <div className="text-xs mt-1">{formatTimestamp(message.timestamp)}</div>
       </div>
       {isSender && (
         <img

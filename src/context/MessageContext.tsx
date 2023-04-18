@@ -43,7 +43,26 @@ interface MessageProviderProps {
 export const MessageProvider: React.FC<MessageProviderProps> = ({
   children,
 }) => {
-  const [messages, dispatch] = useReducer(messageReducer, []);
+  const mockMessages: Message[] = [
+    {
+      id: "1",
+      channelId: "1",
+      senderId: "1",
+      content: "Hello!",
+      timestamp: new Date(),
+      imageUrl: "",
+    },
+    {
+      id: "2",
+      channelId: "1",
+      senderId: "2",
+      content: "Hi there!",
+      timestamp: new Date(),
+      imageUrl: "",
+    },
+  ];
+
+  const [messages, dispatch] = useReducer(messageReducer, mockMessages);
 
   return (
     <MessageContext.Provider value={{ messages, dispatch }}>
