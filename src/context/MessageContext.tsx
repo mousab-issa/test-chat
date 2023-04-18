@@ -1,3 +1,4 @@
+import { compareDesc } from "date-fns";
 import React, { createContext, useReducer } from "react";
 
 export interface Message {
@@ -35,13 +36,21 @@ export const messageReducer = (
 ): Message[] => {
   switch (action.type) {
     case "SET_MESSAGES":
-      return action.payload;
+      return action.payload.sort((a, b) =>
+        compareDesc(new Date(a.datetime || 0), new Date(b.datetime || 0))
+      );
     case "SEND_MESSAGE":
-      return [...state, action.payload];
+      return [...state, action.payload].sort((a, b) =>
+        compareDesc(new Date(a.datetime || 0), new Date(b.datetime || 0))
+      );
     case "LOAD_OLDER_MESSAGES":
-      return [...action.payload, ...state];
+      return [...action.payload, ...state].sort((a, b) =>
+        compareDesc(new Date(a.datetime || 0), new Date(b.datetime || 0))
+      );
     case "LOAD_NEWER_MESSAGES":
-      return [...state, ...action.payload];
+      return [...state, ...action.payload].sort((a, b) =>
+        compareDesc(new Date(a.datetime || 0), new Date(b.datetime || 0))
+      );
     case "SEND_MESSAGE_ERROR":
       const failedMessageIndex = state.findIndex(
         (message) => message.messageId === action.payload.messageId
@@ -59,7 +68,9 @@ export const messageReducer = (
         ...state.slice(0, messageIndex),
         action.payload.newMessage,
         ...state.slice(messageIndex + 1),
-      ];
+      ].sort((a, b) =>
+        compareDesc(new Date(a.datetime || 0), new Date(b.datetime || 0))
+      );
 
     default:
       return state;
