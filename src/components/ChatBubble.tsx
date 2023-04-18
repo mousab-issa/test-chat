@@ -64,11 +64,14 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
       className={clsx("flex mb-4", isSender ? "justify-end" : "justify-start")}
     >
       {!isSender && (
-        <img
-          src={getUserAvatar(message.userId)}
-          className="object-cover h-8 w-8 rounded-full"
-          alt=""
-        />
+        <div>
+          <img
+            src={getUserAvatar(message.userId)}
+            className="object-cover h-8 w-8 rounded-full"
+            alt=""
+          />
+          <div>{message.userId}</div>
+        </div>
       )}
       <div
         className={clsx(
@@ -87,14 +90,16 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
             ? "Error. Click to resend."
             : isSender && <>&nbsp;Sent</>}
         </div>
-        <div>{message.userId}</div>
       </div>
       {isSender && (
-        <img
-          src={getUserAvatar(message.userId)}
-          className="object-cover h-8 w-8 rounded-full"
-          alt=""
-        />
+        <div>
+          <img
+            src={getUserAvatar(message.userId)}
+            className="object-cover h-8 w-8 rounded-full"
+            alt=""
+          />
+          <div>{message.userId}</div>
+        </div>
       )}
     </div>
   );
