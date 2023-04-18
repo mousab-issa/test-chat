@@ -2,16 +2,16 @@ import { useMutation } from "@apollo/client";
 import clsx from "clsx";
 import React, { useContext } from "react";
 import MessageContext, { Message } from "../context/MessageContext";
-import UserContext from "../context/UserContext";
 import { mockUsers } from "../data/mock";
 import { POST_MESSAGE } from "../graphQl/queries";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export interface ChatBubbleProps {
   message: Message;
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useCurrentUser();
   const { dispatch } = useContext(MessageContext);
 
   const [postMessageMutation] = useMutation(POST_MESSAGE);

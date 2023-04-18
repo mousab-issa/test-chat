@@ -1,13 +1,14 @@
 import React, { useContext, useState } from "react";
 import ChannelContext from "../context/ChannelContext";
 import MessageContext, { Message } from "../context/MessageContext";
-import UserContext from "../context/UserContext";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 import { ChatBubble } from "./ChatBubble";
 
 const MessageSection: React.FC = () => {
   const { messages, dispatch: messageDispatch } = useContext(MessageContext);
   const { currentChannel } = useContext(ChannelContext);
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useCurrentUser();
+
   const [messageContent, setMessageContent] = useState("");
 
   const handleSendMessage = () => {
