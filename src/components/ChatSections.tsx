@@ -1,19 +1,19 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Message } from "../context/MessageContext";
-import UserContext from "../context/UserContext";
+
 import { ChatBubble } from "./ChatBubble";
 import { FETCH_MORE_MESSAGES, POST_MESSAGE } from "../graphQl/queries";
 import { useMutation, useQuery } from "@apollo/client";
 import { useMessages } from "../hooks/useMessages";
 import { useInputMessage } from "../hooks/useInputMessage";
 import { useScrollToBottom } from "../hooks/useScrollToBottom";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export const ChatSection: React.FC = () => {
   const { messages, currentChannel, dispatch } = useMessages();
   const { inputMessage, setInputMessage } = useInputMessage();
   const { showScrollToBottom } = useScrollToBottom();
-
-  const { currentUser } = useContext(UserContext);
+  const { currentUser } = useCurrentUser();
 
   const messagesEndRef = React.useRef<HTMLDivElement | null>(null);
   const olderMessagesEndRef = React.useRef<HTMLDivElement | null>(null);

@@ -1,49 +1,33 @@
 import React, { useContext } from "react";
 import ChannelContext, { Channel } from "../context/ChannelContext";
-import UserContext, { User } from "../context/UserContext";
 import { mockUsers } from "../data/mock";
+import { useCurrentUser } from "../hooks/useCurrentUser";
 
 export const ChannelsList: React.FC = () => {
   const { channels, dispatch, currentChannel } = useContext(ChannelContext);
-  const { currentUser, dispatch: userDispatch } = useContext(UserContext);
+  const { currentUser, setCurrentUser } = useCurrentUser();
 
   const handleChannelClick = (channel: Channel) => {
     dispatch({ type: "SET_CURRENT_CHANNEL", payload: channel });
   };
 
-  const handleUserClick = (user: User) => {
-    userDispatch({ type: "SET_CURRENT_USER", payload: user });
-  };
-
   return (
     <div className="flex flex-col w-1/3 border-r-2 bg-white">
       <div className="border-b-2 py-4 px-2">
-        <div className="relative inline-block w-full">
-          <select
-            className="block appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            value={currentUser?.id}
-            onChange={(e) => {
-              const selectedUser = mockUsers.find(
-                (user) => user.id === e.target.value
-              );
-              if (selectedUser) handleUserClick(selectedUser);
-            }}
-          >
-            {mockUsers.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.name}
-              </option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-            <svg
-              className="fill-current h-4 w-4"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
+        <div className="flex flex-wrap justify-start">
+          {mockUsers.map((user) => (
+            <div
+              key={user.id}
+              onClick={() => setCurrentUser(user)}
+              className={`px-4 py-2 mr-2 mb-2 rounded cursor-pointer ${
+                currentUser?.id === user.id
+                  ? "bg-green-100 text-green-800"
+                  : "bg-gray-200 text-gray-700"
+              }`}
             >
-              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-            </svg>
-          </div>
+              {user.name}
+            </div>
+          ))}
         </div>
       </div>
       {channels.map((channel) => (
