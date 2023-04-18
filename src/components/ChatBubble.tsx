@@ -74,7 +74,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         className={clsx(
           "py-1 px-4 rounded-xl max-w-[50%]",
           isSender ? "mr-2" : "ml-2",
-          isSender ? "bg-blue-400" : "bg-gray-400",
+          isSender ? "bg-green-400" : "bg-gray-400",
           "text-white",
           "shadow-md"
         )}
@@ -87,6 +87,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
             ? "Error. Click to resend."
             : isSender && <>&nbsp;Sent</>}
         </div>
+        <div>{message.userId}</div>
       </div>
       {isSender && (
         <img

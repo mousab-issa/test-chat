@@ -4,17 +4,17 @@ import { User } from "../context/UserContext";
 export const mockUsers: User[] = [
   {
     id: "Sam",
-    name: "John Doe",
+    name: "Sam",
     avatarUrl: "https://picsum.photos/205",
   },
   {
     id: "Russell",
-    name: "Jane Smith",
+    name: "Russel",
     avatarUrl: "https://picsum.photos/201",
   },
   {
     id: "Joyse",
-    name: "Bob Ross",
+    name: "Joyse",
     avatarUrl: "https://picsum.photos/202",
   },
 ];
