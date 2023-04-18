@@ -137,27 +137,51 @@ export const ChatSection: React.FC = () => {
   return (
     <div className="flex flex-col w-full h-screen relative">
       <div className="flex-grow overflow-y-auto p-4">
-        <div ref={olderMessagesEndRef}></div>
-
+        <div ref={olderMessagesEndRef} />
         {filteredMessages.map((message, i) => (
           <ChatBubble key={message.text + i} message={message} />
         ))}
-
-        <div ref={messagesEndRef}></div>
+        <div ref={messagesEndRef} />
       </div>
 
       <button
         onClick={handleLoadOlderMessages}
-        className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-lg"
+        className="absolute top-2 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-2 rounded-full hover:shadow-lg"
       >
-        Load Older Messages
+        <svg
+          className="w-6 h-6 hover:w-10 hover:h-10  transition-all ease-in-out"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
       </button>
 
       <button
         onClick={handleLoadNewerMessages}
-        className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-lg"
+        className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-green-500 text-white p-2 rounded-full hover:shadow-lg"
       >
-        Load Newer Messages
+        <svg
+          className="w-6 h-6 hover:w-10 hover:h-10  transition-all ease-in-out"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
       </button>
 
       <form
@@ -168,12 +192,12 @@ export const ChatSection: React.FC = () => {
           type="text"
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none"
           placeholder="Type your message"
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          className="bg-green-500 text-white px-4 py-2 rounded-lg"
         >
           Send
         </button>
