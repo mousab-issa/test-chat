@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { mockChannels } from "../data/mock";
 
 export interface Channel {
   id: string;
@@ -53,21 +54,6 @@ interface ChannelProviderProps {
 export const ChannelProvider: React.FC<ChannelProviderProps> = ({
   children,
 }) => {
-  const mockChannels: Channel[] = [
-    {
-      id: "1",
-      name: "Channel 1",
-      users: ["1", "2"],
-      imageUrl: "https://example.com/channel1.jpg",
-    },
-    {
-      id: "2",
-      name: "Channel 2",
-      users: ["1", "3"],
-      imageUrl: "https://example.com/channel2.jpg",
-    },
-  ];
-
   const [channels, dispatchChannels] = useReducer(channelReducer, mockChannels);
   const [currentChannel, dispatchCurrentChannel] = useReducer(
     currentChannelReducer,

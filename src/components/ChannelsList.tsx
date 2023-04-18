@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import ChannelContext, { Channel } from "../context/ChannelContext";
 import UserContext, { User } from "../context/UserContext";
+import { mockUsers } from "../data/mock";
 
 export const ChannelsList: React.FC = () => {
   const { channels, dispatch, currentChannel } = useContext(ChannelContext);
@@ -13,24 +14,6 @@ export const ChannelsList: React.FC = () => {
   const handleUserClick = (user: User) => {
     userDispatch({ type: "SET_CURRENT_USER", payload: user });
   };
-
-  const mockUsers: User[] = [
-    {
-      id: "1",
-      name: "John Doe",
-      avatarUrl: "https://example.com/johndoe.jpg",
-    },
-    {
-      id: "2",
-      name: "Jane Smith",
-      avatarUrl: "https://example.com/janesmith.jpg",
-    },
-    {
-      id: "3",
-      name: "Bob Ross",
-      avatarUrl: "https://example.com/bobross.jpg",
-    },
-  ];
 
   return (
     <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">

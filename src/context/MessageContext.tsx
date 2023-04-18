@@ -1,12 +1,12 @@
 import React, { createContext, useReducer } from "react";
 
 export interface Message {
-  id: string;
+  messageId: string;
+  text: string;
+  datetime: string;
+  userId: string;
+  error?: boolean;
   channelId: string;
-  senderId: string;
-  content: string;
-  timestamp: Date;
-  imageUrl: string;
 }
 
 interface MessageContextInterface {
@@ -16,7 +16,11 @@ interface MessageContextInterface {
 
 export type MessageAction =
   | { type: "SET_MESSAGES"; payload: Message[] }
-  | { type: "SEND_MESSAGE"; payload: Message };
+  | { type: "SEND_MESSAGE"; payload: Message }
+  | { type: "LOAD_OLDER_MESSAGES"; payload: Message[] }
+  | { type: "LOAD_NEWER_MESSAGES"; payload: Message[] }
+  | { type: "SEND_MESSAGE_ERROR"; payload: Message }
+  | { type: "UPDATE_MESSAGE"; payload: { oldId: string; newMessage: Message } }; // Add this line
 
 const MessageContext = createContext<MessageContextInterface>({
   messages: [],
@@ -31,6 +35,29 @@ const messageReducer = (state: Message[], action: MessageAction): Message[] => {
       return action.payload;
     case "SEND_MESSAGE":
       return [...state, action.payload];
+    case "LOAD_OLDER_MESSAGES":
+      return [...action.payload, ...state];
+    case "LOAD_NEWER_MESSAGES":
+      return [...state, ...action.payload];
+    case "SEND_MESSAGE_ERROR":
+      const failedMessageIndex = state.findIndex(
+        (message) => message.messageId === action.payload.messageId
+      );
+      return [
+        ...state.slice(0, failedMessageIndex),
+        action.payload,
+        ...state.slice(failedMessageIndex + 1),
+      ];
+    case "UPDATE_MESSAGE":
+      const messageIndex = state.findIndex(
+        (message) => message.messageId === action.payload.oldId
+      );
+      return [
+        ...state.slice(0, messageIndex),
+        action.payload.newMessage,
+        ...state.slice(messageIndex + 1),
+      ];
+
     default:
       return state;
   }
@@ -43,26 +70,7 @@ interface MessageProviderProps {
 export const MessageProvider: React.FC<MessageProviderProps> = ({
   children,
 }) => {
-  const mockMessages: Message[] = [
-    {
-      id: "1",
-      channelId: "1",
-      senderId: "1",
-      content: "Hello!",
-      timestamp: new Date(),
-      imageUrl: "",
-    },
-    {
-      id: "2",
-      channelId: "1",
-      senderId: "2",
-      content: "Hi there!",
-      timestamp: new Date(),
-      imageUrl: "",
-    },
-  ];
-
-  const [messages, dispatch] = useReducer(messageReducer, mockMessages);
+  const [messages, dispatch] = useReducer(messageReducer, []);
 
   return (
     <MessageContext.Provider value={{ messages, dispatch }}>

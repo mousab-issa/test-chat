@@ -1,4 +1,5 @@
 import React, { createContext, useReducer } from "react";
+import { mockUsers } from "../data/mock";
 
 export interface User {
   id: string;
@@ -34,11 +35,7 @@ interface UserProviderProps {
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
-  const mockCurrentUser: User = {
-    id: "1",
-    name: "John Doe",
-    avatarUrl: "https://example.com/johndoe.jpg",
-  };
+  const mockCurrentUser: User = mockUsers[0];
 
   const [currentUser, dispatch] = useReducer(userReducer, mockCurrentUser);
 

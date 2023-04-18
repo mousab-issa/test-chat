@@ -13,12 +13,11 @@ const MessageSection: React.FC = () => {
   const handleSendMessage = () => {
     if (currentUser && currentChannel && messageContent.trim()) {
       const message: Message = {
-        id: Date.now().toString(),
+        messageId: Date.now().toString(),
         channelId: currentChannel.id,
-        senderId: currentUser.id,
-        content: messageContent,
-        timestamp: new Date(),
-        imageUrl: "",
+        userId: currentUser.id,
+        text: messageContent,
+        datetime: new Date().toString(),
       };
 
       messageDispatch({ type: "SEND_MESSAGE", payload: message });

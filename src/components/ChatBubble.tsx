@@ -1,38 +1,58 @@
+import { useMutation } from "@apollo/client";
 import React, { useContext } from "react";
+import MessageContext, { Message } from "../context/MessageContext";
 import UserContext from "../context/UserContext";
+import { POST_MESSAGE } from "../graphQl/queries";
 
 interface ChatBubbleProps {
-  message: {
-    id: string;
-    channelId: string;
-    senderId: string;
-    content: string;
-    timestamp: Date;
-    imageUrl: string;
-  };
+  message: Message;
 }
 
 export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   const { currentUser } = useContext(UserContext);
-  const isSender = currentUser && currentUser.id === message.senderId;
+  const { dispatch } = useContext(MessageContext);
+
+  const [postMessageMutation] = useMutation(POST_MESSAGE);
+
+  const isSender = currentUser && currentUser.id === message.userId;
+
+  const handleResend = async () => {
+    if (message.error) {
+      try {
+        const { data } = await postMessageMutation({
+          variables: {
+            channelId: message.channelId,
+            text: message.text,
+            userId: message.userId,
+          },
+        });
+
+        const newMessage = {
+          ...message,
+          id: data.postMessage.id,
+          timestamp: new Date(data.postMessage.timestamp),
+          error: false,
+        };
+        dispatch({
+          type: "UPDATE_MESSAGE",
+          payload: { oldId: message.messageId, newMessage },
+        });
+      } catch (error) {
+        console.error("Error resending message:", error);
+      }
+    }
+  };
 
   const getUserAvatar = (userId: string): string => {
     const user = currentUser?.id === userId ? currentUser : null;
     return user ? user.avatarUrl : "";
   };
 
-  const formatTimestamp = (timestamp: Date): string => {
-    return new Intl.DateTimeFormat("en-US", {
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(timestamp);
-  };
-
   return (
     <div className={`flex ${isSender ? "justify-end" : "justify-start"} mb-4`}>
       {!isSender && (
         <img
-          src={getUserAvatar(message.senderId)}
+          src={getUserAvatar(message.userId)}
           className="object-cover h-8 w-8 rounded-full"
           alt=""
         />
@@ -43,13 +63,14 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         } ${
           isSender ? "rounded-bl-3xl" : "rounded-br-3xl"
         } rounded-tr-3xl rounded-${isSender ? "tr" : "tl"}-xl text-white`}
+        onClick={handleResend}
       >
-        {message.content}
-        <div className="text-xs mt-1">{formatTimestamp(message.timestamp)}</div>
+        {message.text}
+        {message.error ? "Error. Click to resend." : ""}
       </div>
       {isSender && (
         <img
-          src={getUserAvatar(message.senderId)}
+          src={getUserAvatar(message.userId)}
           className="object-cover h-8 w-8 rounded-full"
           alt=""
         />
