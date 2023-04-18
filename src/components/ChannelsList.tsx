@@ -16,7 +16,7 @@ export const ChannelsList: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col w-2/5 border-r-2 overflow-y-auto">
+    <div className="flex flex-col w-1/3 border-r-2 bg-white">
       <div className="border-b-2 py-4 px-2">
         <div className="relative inline-block w-full">
           <select
@@ -52,7 +52,7 @@ export const ChannelsList: React.FC = () => {
           onClick={() => handleChannelClick(channel)}
           className={`flex flex-row py-4 px-2 items-center border-b-2 ${
             currentChannel?.id === channel.id
-              ? "border-l-4 border-blue-400"
+              ? "border-l-4 border-green-500 bg-green-100"
               : ""
           } cursor-pointer`}
         >

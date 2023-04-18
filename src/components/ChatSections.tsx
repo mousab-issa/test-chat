@@ -136,12 +136,13 @@ export const ChatSection: React.FC = () => {
   };
   return (
     <div className="flex flex-col w-full h-screen relative">
-      <div className="flex-grow overflow-y-auto">
+      <div className="flex-grow overflow-y-auto p-4">
         <div ref={olderMessagesEndRef}></div>
 
         {filteredMessages.map((message, i) => (
           <ChatBubble key={message.text + i} message={message} />
         ))}
+
         <div ref={messagesEndRef}></div>
       </div>
 

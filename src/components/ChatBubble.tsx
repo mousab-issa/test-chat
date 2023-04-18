@@ -1,4 +1,5 @@
 import { useMutation } from "@apollo/client";
+import clsx from "clsx";
 import React, { useContext } from "react";
 import MessageContext, { Message } from "../context/MessageContext";
 import UserContext from "../context/UserContext";
@@ -59,7 +60,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
   };
 
   return (
-    <div className={`flex ${isSender ? "justify-end" : "justify-start"} mb-4`}>
+    <div
+      className={clsx("flex mb-4", isSender ? "justify-end" : "justify-start")}
+    >
       {!isSender && (
         <img
           src={getUserAvatar(message.userId)}
@@ -68,11 +71,16 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
         />
       )}
       <div
-        className={`${isSender ? "mr-2" : "ml-2"} py-3 px-4 ${
-          isSender ? "bg-blue-400" : "bg-gray-400"
-        } ${
-          isSender ? "rounded-bl-3xl" : "rounded-br-3xl"
-        } rounded-tr-3xl rounded-${isSender ? "tr" : "tl"}-xl text-white`}
+        className={clsx(
+          isSender ? "mr-2" : "ml-2",
+          "py-3 px-4",
+          isSender ? "bg-blue-400" : "bg-gray-400",
+          isSender ? "rounded-bl-3xl" : "rounded-br-3xl",
+          "rounded-tr-3xl",
+          `rounded-${isSender ? "tr" : "tl"}-xl`,
+          "text-white",
+          "shadow-md"
+        )}
         onClick={handleResend}
       >
         <div>{message.text}</div>
