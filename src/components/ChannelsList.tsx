@@ -50,9 +50,9 @@ export const ChannelsList: React.FC = () => {
         <div
           key={channel.id}
           onClick={() => handleChannelClick(channel)}
-          className={`flex flex-row py-4 px-2 items-center border-b-2 ${
+          className={`flex flex-row py-4 px-2 items-center ${
             currentChannel?.id === channel.id
-              ? "border-l-4 border-green-500 bg-green-100"
+              ? "border-green-500 bg-green-100"
               : ""
           } cursor-pointer`}
         >
