@@ -99,7 +99,14 @@ export const ChatSection: React.FC = () => {
         },
       });
 
-      const olderMessages = data.fetchMoreMessages;
+      const olderMessages = data.fetchMoreMessages.map((message: Message) => {
+        if (!currentChannel?.id) {
+          return message;
+        }
+
+        return { ...message, channelId: currentChannel.id, error: false };
+      });
+
       dispatch({ type: "LOAD_OLDER_MESSAGES", payload: olderMessages });
     } catch (error) {
       console.error("Error loading older messages:", error);
@@ -116,7 +123,13 @@ export const ChatSection: React.FC = () => {
         },
       });
 
-      const newerMessages = data.fetchMoreMessages;
+      const newerMessages = data.fetchMoreMessages.map((message: Message) => {
+        if (!currentChannel?.id) {
+          return message;
+        }
+
+        return { ...message, channelId: currentChannel.id, error: false };
+      });
       dispatch({ type: "LOAD_NEWER_MESSAGES", payload: newerMessages });
     } catch (error) {
       console.error("Error loading newer messages:", error);
@@ -125,8 +138,8 @@ export const ChatSection: React.FC = () => {
   return (
     <div className="flex flex-col w-full h-screen relative">
       <div className="flex-grow overflow-y-auto">
-        {filteredMessages.map((message) => (
-          <ChatBubble key={message.text} message={message} />
+        {filteredMessages.map((message, i) => (
+          <ChatBubble key={message.datetime + i} message={message} />
         ))}
         <div ref={messagesEndRef}></div>
       </div>
@@ -138,7 +151,6 @@ export const ChatSection: React.FC = () => {
         Load Older Messages
       </button>
 
-      {/* Load Newer Messages Button */}
       <button
         onClick={handleLoadNewerMessages}
         className="absolute bottom-20 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-lg"
