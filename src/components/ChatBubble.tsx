@@ -72,12 +72,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({ message }) => {
       )}
       <div
         className={clsx(
+          "py-1 px-4 rounded-xl max-w-[50%]",
           isSender ? "mr-2" : "ml-2",
-          "py-3 px-4",
           isSender ? "bg-blue-400" : "bg-gray-400",
-          isSender ? "rounded-bl-3xl" : "rounded-br-3xl",
-          "rounded-tr-3xl",
-          `rounded-${isSender ? "tr" : "tl"}-xl`,
           "text-white",
           "shadow-md"
         )}
